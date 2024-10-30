@@ -39,10 +39,18 @@ public class IncidentServiceImpl implements IncidentService {
     @Override
     @CacheEvict(value = "incidents", allEntries = true)
     public Incident updateIncident(Incident incident) {
-        if (!incidentRepository.findById(incident.getId()).isPresent()) {
-            throw new IncidentNotFoundException("Incident not found with id: " + incident.getId());
-        }
-        return incidentRepository.save(incident);
+        // 首先获取现有的 Incident
+        Incident existingIncident = incidentRepository.findById(incident.getId())
+                .orElseThrow(() -> new IncidentNotFoundException("Incident not found with id: " + incident.getId()));
+
+        // update fields
+        existingIncident.setTitle(incident.getTitle());
+        existingIncident.setDescription(incident.getDescription());
+        existingIncident.setStatus(incident.getStatus());
+        existingIncident.setTimestamp(incident.getTimestamp());
+
+        // save and return incident
+        return incidentRepository.save(existingIncident);
     }
 
     @Override

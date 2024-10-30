@@ -28,5 +28,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-    // 可以添加其他异常处理方法...
+
 }

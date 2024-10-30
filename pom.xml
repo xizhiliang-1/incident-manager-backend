@@ -11,7 +11,7 @@
 	<groupId>com.felix</groupId>
 	<artifactId>incident-manager-backend</artifactId>
 	<version>1.0.0</version>
-	<name>incident-manager</name>
+	<name>incident-manager-backend</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

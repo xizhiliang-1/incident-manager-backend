@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/incidents") // API basic entry
-@CrossOrigin(origins = "http://localhost:3000")  // 允许来自 React 前端的请求
+@CrossOrigin(origins = "http://localhost:3000")
 public class IncidentController {
 
     private final IncidentService incidentService;

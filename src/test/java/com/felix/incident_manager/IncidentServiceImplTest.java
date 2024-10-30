@@ -51,5 +51,53 @@ public class IncidentServiceImplTest {
         assertEquals("Incident not found with id: 1", exception.getMessage());
     }
 
-    // 其他测试...
+    @Test
+    public void testUpdateIncident() {
+        Long id = 4L;
+        Incident existingIncident = new Incident();
+        existingIncident.setId(id);
+        existingIncident.setDescription("Old description");
+        existingIncident.setTitle("Existing Incident");
+
+        when(incidentRepository.findById(id)).thenReturn(Optional.of(existingIncident));
+        when(incidentRepository.save(any(Incident.class))).thenReturn(existingIncident);
+
+        Incident updatedIncident = new Incident();
+        updatedIncident.setId(id);
+        updatedIncident.setDescription("New description");
+        updatedIncident.setTitle("Updated Incident");
+
+        Incident result = incidentService.updateIncident(updatedIncident);
+
+        assertNotNull(result);
+        assertEquals("Updated Incident", result.getTitle());
+        assertEquals("New description", result.getDescription());
+    }
+
+    @Test
+    public void testDeleteIncident_NotFound() {
+        Long id = 1L;
+        when(incidentRepository.findById(id)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IncidentNotFoundException.class, () -> {
+            incidentService.deleteIncident(id);
+        });
+
+        assertEquals("Incident not found with id: 1", exception.getMessage());
+    }
+
+    @Test
+    public void testDeleteIncident_Success() {
+        Long id = 1L;
+        Incident existingIncident = new Incident();
+        existingIncident.setId(id);
+        existingIncident.setTitle("Incident to Delete");
+
+        when(incidentRepository.findById(id)).thenReturn(Optional.of(existingIncident));
+
+        incidentService.deleteIncident(id);
+
+        verify(incidentRepository, times(1)).findById(id);
+        verify(incidentRepository, times(1)).deleteById(id);
+    }
 }
