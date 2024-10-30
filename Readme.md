@@ -1,0 +1,1 @@
+curl -X POST http://localhost:8080/api/incidents  -H "Content-Type: application/json"  -d '{ "title": "Test Incident", "description": "Felix testssssss.","status": "NEW","timestamp": "2024-10-29T18:42:23"}'
